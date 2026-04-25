@@ -27,14 +27,39 @@
   --red-bg: #FAECEC;
   --amber: #7A4E00;
   --amber-bg: #FFF4D6;
+  --star: #D4A017;
   --r: 10px;
   --r-lg: 16px;
   --shadow: 0 2px 12px rgba(28,26,20,.08);
   --shadow-lg: 0 8px 32px rgba(28,26,20,.12);
 }
 
+/* MODO OSCURO */
+body.dark {
+  --bg: #1A1D23;
+  --surface: #242830;
+  --surface2: #2D323B;
+  --surface3: #363C47;
+  --border: #3A404B;
+  --border2: #4A5160;
+  --text: #E8E6E0;
+  --text2: #B5B0A3;
+  --text3: #807B6D;
+  --accent: #5A8AA3;
+  --accent2: #7FA8BE;
+  --accent-bg: #2C3A44;
+  --green: #7FBF9F;
+  --green-bg: #2A3E34;
+  --red: #D98B8B;
+  --red-bg: #3E2A2A;
+  --amber: #D4A85E;
+  --amber-bg: #3E3528;
+  --shadow: 0 2px 12px rgba(0,0,0,.3);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,.5);
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 14px; }
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 14px; transition: background .2s, color .2s; }
 
 /* ── LOGIN ── */
 .login-screen {
@@ -60,6 +85,11 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .app { display: none; }
 .app.visible { display: block; }
 
+/* ── BANNER RECORDATORIO ── */
+.reminder-banner { display: none; background: linear-gradient(135deg, var(--red-bg), var(--amber-bg)); border-bottom: 2px solid var(--border); padding: 12px 2rem; font-size: 13px; color: var(--text); }
+.reminder-banner.show { display: flex; align-items: center; gap: 10px; }
+.reminder-banner .close-ban { margin-left: auto; background: none; border: none; cursor: pointer; color: var(--text2); font-size: 18px; padding: 0 8px; }
+
 /* ── HEADER ── */
 .header {
   background: var(--accent); color: #fff;
@@ -71,6 +101,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .header-left { display: flex; align-items: center; gap: 12px; }
 .h-logo { font-family: 'Playfair Display', serif; font-size: 20px; letter-spacing: -.3px; }
 .h-sub { font-size: 11px; opacity: .6; text-transform: uppercase; letter-spacing: .08em; }
+.stats-mini { font-size: 11px; opacity: .7; margin-left: 16px; font-family: 'DM Mono', monospace; }
 .header-right { display: flex; align-items: center; gap: 10px; }
 .h-search-wrap { position: relative; }
 .h-search-wrap svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 13px; height: 13px; opacity: .5; pointer-events: none; }
@@ -80,6 +111,8 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .btn-nueva { display: flex; align-items: center; gap: 6px; padding: 7px 16px; background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25); border-radius: var(--r); color: #fff; font-family: inherit; font-size: 13px; font-weight: 500; cursor: pointer; transition: background .15s; white-space: nowrap; }
 .btn-nueva:hover { background: rgba(255,255,255,.25); }
 .btn-nueva svg { width: 13px; height: 13px; }
+.btn-icon { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); color: #fff; width: 32px; height: 32px; border-radius: var(--r); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .15s; }
+.btn-icon:hover { background: rgba(255,255,255,.25); }
 .btn-logout { padding: 6px 12px; border: 1px solid rgba(255,255,255,.2); border-radius: var(--r); background: transparent; color: rgba(255,255,255,.7); font-family: inherit; font-size: 12px; cursor: pointer; }
 .btn-logout:hover { background: rgba(255,255,255,.1); color: #fff; }
 
@@ -96,14 +129,21 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
   font-family: inherit; font-size: 13px; font-weight: 500;
   color: var(--text3); cursor: pointer; white-space: nowrap;
   border-bottom: 2px solid transparent; margin-bottom: -1px;
-  transition: all .15s;
+  transition: all .15s; position: relative;
 }
 .tab-btn:hover { color: var(--text2); }
 .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
 .tab-btn.completadas { color: var(--green); }
 .tab-btn.completadas.active { border-bottom-color: var(--green); }
+.tab-btn.favoritas { color: var(--star); }
+.tab-btn.favoritas.active { border-bottom-color: var(--star); }
+.tab-btn.notas { color: var(--accent2); }
+.tab-btn.notas.active { border-bottom-color: var(--accent2); }
 .tab-count { display: inline-block; font-size: 10px; background: var(--surface2); border-radius: 10px; padding: 1px 6px; margin-left: 5px; font-family: 'DM Mono', monospace; }
 .tab-btn.active .tab-count { background: var(--accent-bg); color: var(--accent); }
+.tab-menu-btn { opacity: 0; margin-left: 4px; font-size: 12px; padding: 2px 4px; border-radius: 4px; }
+.tab-btn:hover .tab-menu-btn { opacity: .6; }
+.tab-menu-btn:hover { opacity: 1 !important; background: var(--surface2); }
 .btn-add-tab { padding: 10px 12px; border: none; background: transparent; color: var(--text3); cursor: pointer; font-size: 18px; line-height: 1; transition: color .15s; }
 .btn-add-tab:hover { color: var(--accent); }
 
@@ -112,9 +152,12 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .f2-btn { padding: 5px 13px; border: 1px solid var(--border); border-radius: 20px; background: transparent; font-family: inherit; font-size: 12px; font-weight: 500; color: var(--text2); cursor: pointer; transition: all .12s; white-space: nowrap; }
 .f2-btn:hover { border-color: var(--border2); color: var(--text); }
 .f2-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-.toolbar2-right { margin-left: auto; display: flex; gap: 8px; }
-.btn-pdf { display: flex; align-items: center; gap: 5px; padding: 5px 13px; border: 1px solid var(--border); border-radius: var(--r); background: transparent; font-family: inherit; font-size: 12px; color: var(--text2); cursor: pointer; transition: all .12s; }
-.btn-pdf:hover { background: var(--red-bg); border-color: #F0B8B8; color: var(--red); }
+.sort-select { padding: 5px 28px 5px 13px; border: 1px solid var(--border); border-radius: 20px; background: transparent; font-family: inherit; font-size: 12px; color: var(--text2); cursor: pointer; outline: none; appearance: none; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path d='M2 4l3 3 3-3' stroke='%236B6655' stroke-width='1.5' fill='none' stroke-linecap='round'/></svg>"); background-repeat: no-repeat; background-position: right 8px center; }
+.toolbar2-right { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
+.btn-export { display: flex; align-items: center; gap: 5px; padding: 5px 13px; border: 1px solid var(--border); border-radius: var(--r); background: transparent; font-family: inherit; font-size: 12px; color: var(--text2); cursor: pointer; transition: all .12s; }
+.btn-export:hover { background: var(--surface2); color: var(--text); }
+.btn-export.pdf:hover { background: var(--red-bg); border-color: #F0B8B8; color: var(--red); }
+.btn-export.excel:hover { background: var(--green-bg); border-color: #9FD8BB; color: var(--green); }
 
 /* ── MAIN ── */
 .main { padding: 1.5rem 2rem 3rem; }
@@ -125,40 +168,68 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
   background: var(--surface); border: 1px solid var(--border);
   border-radius: var(--r-lg); overflow: hidden;
   box-shadow: var(--shadow); transition: box-shadow .15s, transform .1s;
+  position: relative;
 }
 .tarea-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-1px); }
-.tarea-card.completada { opacity: .7; }
+.tarea-card.completada { opacity: .6; }
+.tarea-card.vencida { border-color: #F0B8B8; background: var(--red-bg); }
+.tarea-card.hoy { border-color: #E8CC88; background: var(--amber-bg); }
 .card-accent-bar { height: 3px; }
 .card-body { padding: 1rem 1.1rem; }
 .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; gap: 8px; }
-.card-titulo { font-size: 14px; font-weight: 600; line-height: 1.35; flex: 1; }
+.card-titulo { font-size: 14px; font-weight: 600; line-height: 1.35; flex: 1; display: flex; gap: 6px; align-items: flex-start; }
+.fav-star { background: none; border: none; cursor: pointer; color: var(--text3); font-size: 16px; padding: 0; line-height: 1; flex-shrink: 0; transition: color .15s, transform .1s; }
+.fav-star:hover { transform: scale(1.15); }
+.fav-star.active { color: var(--star); }
 .prioridad-badge { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 10px; white-space: nowrap; flex-shrink: 0; text-transform: uppercase; letter-spacing: .04em; }
 .p-alta { background: var(--red-bg); color: var(--red); }
 .p-media { background: var(--amber-bg); color: var(--amber); }
 .p-normal { background: var(--accent-bg); color: var(--accent); }
+.estado-badge { font-size: 10px; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; font-family: 'DM Mono', monospace; }
+.e-pendiente { background: var(--surface2); color: var(--text2); }
+.e-en_proceso { background: var(--accent-bg); color: var(--accent); }
+.e-completada { background: var(--green-bg); color: var(--green); }
 
 .card-meta { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
 .meta-row { display: flex; gap: 7px; align-items: flex-start; }
 .meta-icon { width: 13px; height: 13px; flex-shrink: 0; margin-top: 1px; color: var(--text3); }
 .meta-val { font-size: 12px; color: var(--text2); line-height: 1.4; }
 .meta-val.bold { font-weight: 500; color: var(--text); }
+.meta-val.vencida-txt { color: var(--red); font-weight: 600; }
+.meta-val.hoy-txt { color: var(--amber); font-weight: 600; }
 
 .tags-wrap { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
-.tag { font-size: 11px; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 2px 8px; color: var(--text2); font-family: 'DM Mono', monospace; }
+.tag { font-size: 11px; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 2px 8px; color: var(--text2); font-family: 'DM Mono', monospace; cursor: pointer; transition: background .12s; }
+.tag:hover { background: var(--accent-bg); color: var(--accent); }
 
-.obs-box { background: var(--surface2); border-left: 2px solid var(--border2); border-radius: 0 6px 6px 0; padding: 7px 10px; font-size: 12px; color: var(--text2); line-height: 1.5; margin-bottom: 10px; }
+.obs-box { background: var(--surface2); border-left: 2px solid var(--border2); border-radius: 0 6px 6px 0; padding: 7px 10px; font-size: 12px; color: var(--text2); line-height: 1.5; margin-bottom: 10px; white-space: pre-wrap; }
 
-.img-thumb { width: 100%; max-height: 140px; object-fit: cover; border-radius: 6px; margin-bottom: 10px; cursor: pointer; border: 1px solid var(--border); }
+/* SUBTAREAS EN TARJETA */
+.subtasks-wrap { margin-bottom: 10px; }
+.subtask-prog { font-size: 11px; color: var(--text3); margin-bottom: 4px; font-family: 'DM Mono', monospace; }
+.subtask-bar { height: 3px; background: var(--surface2); border-radius: 2px; overflow: hidden; }
+.subtask-fill { height: 100%; background: var(--green); transition: width .3s; }
+.subtask-list { margin-top: 6px; display: flex; flex-direction: column; gap: 3px; }
+.subtask-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text2); cursor: pointer; padding: 2px 0; }
+.subtask-item input { cursor: pointer; }
+.subtask-item.done { color: var(--text3); text-decoration: line-through; }
 
-.card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 10px; border-top: 1px solid var(--border); }
+/* IMÁGENES MÚLTIPLES */
+.imgs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 4px; margin-bottom: 10px; }
+.imgs-grid img { width: 100%; height: 70px; object-fit: cover; border-radius: 4px; cursor: pointer; border: 1px solid var(--border); }
+.imgs-grid.single img { height: 140px; }
+
+.card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 10px; border-top: 1px solid var(--border); gap: 8px; flex-wrap: wrap; }
 .card-fecha { font-size: 11px; color: var(--text3); font-family: 'DM Mono', monospace; }
-.card-btns { display: flex; gap: 5px; }
+.card-btns { display: flex; gap: 5px; flex-wrap: wrap; }
 .cbtn { padding: 4px 9px; border-radius: 6px; border: 1px solid var(--border); background: transparent; font-family: inherit; font-size: 11px; font-weight: 500; color: var(--text2); cursor: pointer; transition: all .12s; }
 .cbtn:hover { background: var(--surface2); color: var(--text); }
 .cbtn-done { border-color: #9FD8BB; color: var(--green); background: var(--green-bg); }
 .cbtn-done:hover { background: #C8EDD8; }
 .cbtn-del { border-color: #F0B8B8; color: var(--red); }
 .cbtn-del:hover { background: var(--red-bg); }
+.cbtn-wa { border-color: #A7E2C0; color: #128C7E; }
+.cbtn-wa:hover { background: #E6F7EF; }
 
 /* ── EMPTY ── */
 .empty-state { text-align: center; padding: 4rem 2rem; color: var(--text3); grid-column: 1/-1; }
@@ -168,14 +239,16 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 /* ── MODAL ── */
 .overlay { display: none; position: fixed; inset: 0; background: rgba(28,26,20,.5); z-index: 200; align-items: flex-start; justify-content: center; padding: 2rem 1rem; overflow-y: auto; }
 .overlay.open { display: flex; }
-.modal { background: var(--surface); border-radius: var(--r-lg); padding: 1.75rem; width: 100%; max-width: 560px; box-shadow: var(--shadow-lg); animation: slideUp .2s ease; margin: auto; }
+.modal { background: var(--surface); border-radius: var(--r-lg); padding: 1.75rem; width: 100%; max-width: 620px; box-shadow: var(--shadow-lg); animation: slideUp .2s ease; margin: auto; }
 @keyframes slideUp { from { transform: translateY(16px); opacity: 0; } to { transform: none; opacity: 1; } }
 .modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
 .modal-title { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--accent); }
 .btn-close { background: none; border: none; cursor: pointer; color: var(--text3); font-size: 22px; line-height: 1; padding: 2px 6px; border-radius: 6px; }
 .btn-close:hover { background: var(--surface2); color: var(--text); }
 
-.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.form-half { grid-column: span 1; }
+.form-2 { grid-column: span 2; }
 .form-full { grid-column: 1/-1; }
 .fg { display: flex; flex-direction: column; gap: 5px; }
 .fl { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: .05em; }
@@ -187,10 +260,31 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--accent2); background: var(--surface); }
 .fg textarea { resize: vertical; min-height: 72px; }
 
-.img-preview-wrap { margin-top: 6px; }
-.img-preview { max-width: 100%; max-height: 160px; border-radius: 8px; border: 1px solid var(--border); display: none; }
-.img-preview.show { display: block; }
-.btn-clear-img { font-size: 11px; color: var(--red); background: none; border: none; cursor: pointer; margin-top: 4px; }
+/* SECCIONES COLAPSABLES EN MODAL */
+.section-collapsable { grid-column: 1/-1; border-top: 1px solid var(--border); padding-top: 12px; margin-top: 4px; }
+.section-title { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: .05em; cursor: pointer; user-select: none; margin-bottom: 10px; }
+.section-title .arrow { transition: transform .2s; }
+.section-title.collapsed .arrow { transform: rotate(-90deg); }
+.section-body { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.section-body.hidden { display: none; }
+
+/* SUBTAREAS EDIT */
+.subtask-edit-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; }
+.subtask-edit-row { display: flex; gap: 6px; align-items: center; }
+.subtask-edit-row input[type="text"] { flex: 1; padding: 6px 10px; font-size: 13px; }
+.btn-del-sub { background: none; border: none; color: var(--red); cursor: pointer; font-size: 16px; padding: 0 6px; }
+.btn-add-sub { font-size: 12px; background: none; border: 1px dashed var(--border2); border-radius: 6px; padding: 6px 12px; cursor: pointer; color: var(--text2); width: 100%; }
+.btn-add-sub:hover { background: var(--surface2); color: var(--text); }
+
+/* DROPZONE IMÁGENES */
+.dropzone { border: 2px dashed var(--border2); border-radius: var(--r); padding: 18px; text-align: center; color: var(--text3); font-size: 13px; cursor: pointer; transition: all .15s; background: var(--bg); }
+.dropzone:hover, .dropzone.drag { border-color: var(--accent2); background: var(--accent-bg); color: var(--accent); }
+.dropzone strong { color: var(--accent); }
+.imgs-preview { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 6px; margin-top: 10px; }
+.img-prev-item { position: relative; }
+.img-prev-item img { width: 100%; height: 80px; object-fit: cover; border-radius: 6px; border: 1px solid var(--border); }
+.img-prev-del { position: absolute; top: 3px; right: 3px; background: rgba(28,26,20,.75); color: #fff; border: none; border-radius: 50%; width: 22px; height: 22px; cursor: pointer; font-size: 14px; line-height: 1; display: flex; align-items: center; justify-content: center; }
+.img-prev-del:hover { background: var(--red); }
 
 .modal-footer { display: flex; justify-content: flex-end; gap: 8px; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border); }
 .btn-cancel2 { padding: 8px 20px; border-radius: var(--r); border: 1px solid var(--border); background: transparent; font-family: inherit; font-size: 13px; font-weight: 500; color: var(--text2); cursor: pointer; }
@@ -201,8 +295,8 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 /* ── CONFIRM ── */
 .confirm-box { display: none; position: fixed; inset: 0; background: rgba(28,26,20,.5); z-index: 300; align-items: center; justify-content: center; }
 .confirm-box.open { display: flex; }
-.confirm-inner { background: var(--surface); border-radius: var(--r-lg); padding: 1.5rem; max-width: 340px; margin: 1rem; box-shadow: var(--shadow-lg); animation: slideUp .15s ease; }
-.confirm-title { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+.confirm-inner { background: var(--surface); border-radius: var(--r-lg); padding: 1.5rem; max-width: 360px; margin: 1rem; box-shadow: var(--shadow-lg); animation: slideUp .15s ease; }
+.confirm-title { font-size: 15px; font-weight: 600; margin-bottom: 8px; color: var(--text); }
 .confirm-msg { font-size: 13px; color: var(--text2); margin-bottom: 1.25rem; line-height: 1.5; }
 .confirm-actions { display: flex; gap: 8px; justify-content: flex-end; }
 .btn-cdel { padding: 7px 18px; border-radius: var(--r); border: none; background: var(--red); color: #fff; font-family: inherit; font-size: 13px; font-weight: 500; cursor: pointer; }
@@ -210,12 +304,20 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 /* ── MODAL PESTAÑA ── */
 .tab-modal { display: none; position: fixed; inset: 0; background: rgba(28,26,20,.5); z-index: 300; align-items: center; justify-content: center; }
 .tab-modal.open { display: flex; }
-.tab-modal-inner { background: var(--surface); border-radius: var(--r-lg); padding: 1.5rem; max-width: 340px; width: 100%; margin: 1rem; box-shadow: var(--shadow-lg); animation: slideUp .15s ease; }
+.tab-modal-inner { background: var(--surface); border-radius: var(--r-lg); padding: 1.5rem; max-width: 360px; width: 100%; margin: 1rem; box-shadow: var(--shadow-lg); animation: slideUp .15s ease; }
+
+/* MENÚ CONTEXTUAL PESTAÑA */
+.tab-ctx-menu { display: none; position: absolute; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); box-shadow: var(--shadow-lg); z-index: 400; min-width: 170px; padding: 5px; }
+.tab-ctx-menu.open { display: block; }
+.ctx-item { padding: 7px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; color: var(--text); display: flex; align-items: center; gap: 8px; }
+.ctx-item:hover { background: var(--surface2); }
+.ctx-item.danger { color: var(--red); }
+.ctx-item.danger:hover { background: var(--red-bg); }
 
 /* ── LIGHTBOX ── */
-.lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.85); z-index: 400; align-items: center; justify-content: center; cursor: zoom-out; }
+.lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.9); z-index: 400; align-items: center; justify-content: center; cursor: zoom-out; }
 .lightbox.open { display: flex; }
-.lightbox img { max-width: 90vw; max-height: 90vh; border-radius: var(--r); box-shadow: var(--shadow-lg); }
+.lightbox img { max-width: 92vw; max-height: 92vh; border-radius: var(--r); box-shadow: var(--shadow-lg); }
 
 /* ── TOAST ── */
 .toast { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%) translateY(60px); background: var(--accent); color: #fff; padding: 10px 22px; border-radius: 20px; font-size: 13px; font-weight: 500; z-index: 500; opacity: 0; transition: all .3s; white-space: nowrap; }
@@ -226,24 +328,17 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .spinner { width: 24px; height: 24px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin .7s linear infinite; margin: 0 auto 1rem; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ── COLORES PESTAÑA ── */
-.color-tab-0 { background: #2A4858; }
-.color-tab-1 { background: #4A5568; }
-.color-tab-2 { background: #744210; }
-.color-tab-3 { background: #276749; }
-.color-tab-4 { background: #702459; }
-.color-tab-5 { background: #2C5282; }
-.color-tab-6 { background: #553C9A; }
-.color-tab-7 { background: #2D3748; }
-
 @media (max-width: 640px) {
   .header { padding: 0 1rem; }
-  .h-search { width: 140px; }
-  .h-search:focus { width: 160px; }
-  .tabs-bar, .toolbar2, .main { padding-left: 1rem; padding-right: 1rem; }
-  .form-grid { grid-template-columns: 1fr; }
-  .form-full { grid-column: 1; }
+  .h-search { width: 120px; }
+  .h-search:focus { width: 140px; }
+  .stats-mini { display: none; }
+  .tabs-bar, .toolbar2, .main, .reminder-banner { padding-left: 1rem; padding-right: 1rem; }
+  .form-grid, .section-body { grid-template-columns: 1fr; }
+  .form-full, .form-2, .form-half { grid-column: 1; }
   .h-sub { display: none; }
+  .btn-nueva span { display: none; }
+  .btn-nueva { padding: 7px 10px; }
 }
 </style>
 </head>
@@ -269,31 +364,50 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
         <div class="h-logo">Mis Tareas</div>
         <div class="h-sub">Panel personal</div>
       </div>
+      <div class="stats-mini" id="statsMini"></div>
     </div>
     <div class="header-right">
       <div class="h-search-wrap">
         <svg viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="5" stroke="white" stroke-width="1.5"/><path d="M10.5 10.5L14 14" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
-        <input type="text" class="h-search" id="globalSearch" placeholder="Buscar en todo..." oninput="buscarGlobal()">
+        <input type="text" class="h-search" id="globalSearch" placeholder="Buscar..." oninput="buscarGlobal()">
       </div>
       <button class="btn-nueva" onclick="abrirModal()">
         <svg viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        Nueva tarea
+        <span>Nueva tarea</span>
       </button>
+      <button class="btn-icon" onclick="toggleTema()" title="Modo oscuro / claro" id="btnTema">🌙</button>
       <button class="btn-logout" onclick="cerrarSesion()">Salir</button>
     </div>
   </div>
+
+  <!-- BANNER DE RECORDATORIOS -->
+  <div class="reminder-banner" id="reminderBanner"></div>
 
   <div class="tabs-bar" id="tabsBar"></div>
 
   <div class="toolbar2">
     <button class="f2-btn active" onclick="setFiltro('todas',this)">Todas</button>
     <button class="f2-btn" onclick="setFiltro('alta',this)">🔴 Alta prioridad</button>
+    <button class="f2-btn" onclick="setFiltro('vencidas',this)">⏰ Vencidas</button>
+    <button class="f2-btn" onclick="setFiltro('hoy',this)">📅 Hoy</button>
     <button class="f2-btn" onclick="setFiltro('pendiente',this)">Pendientes</button>
     <button class="f2-btn" onclick="setFiltro('en_proceso',this)">En proceso</button>
+    <select class="sort-select" id="sortSelect" onchange="cambiarOrden()">
+      <option value="recientes">↓ Más recientes</option>
+      <option value="antiguas">↑ Más antiguas</option>
+      <option value="fecha_asc">📅 Fecha (próximas primero)</option>
+      <option value="fecha_desc">📅 Fecha (lejanas primero)</option>
+      <option value="prioridad">🔴 Prioridad</option>
+      <option value="alfabetico">🔤 Alfabético</option>
+    </select>
     <div class="toolbar2-right">
-      <button class="btn-pdf" onclick="exportarPDF()">
+      <button class="btn-export excel" onclick="exportarExcel()">
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="2" y="1" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M4.5 5h5M4.5 7.5h5M4.5 10h3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        Excel
+      </button>
+      <button class="btn-export pdf" onclick="exportarPDF()">
         <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="2" y="1" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M4 5h6M4 7.5h6M4 10h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
-        Exportar PDF
+        PDF
       </button>
     </div>
   </div>
@@ -316,11 +430,11 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
         <label class="fl">Título de la tarea *</label>
         <input type="text" id="f-titulo" placeholder="Describe la tarea...">
       </div>
-      <div class="fg">
+      <div class="fg form-half">
         <label class="fl">Pestaña</label>
         <select id="f-pestana"></select>
       </div>
-      <div class="fg">
+      <div class="fg form-half">
         <label class="fl">Prioridad</label>
         <select id="f-prioridad">
           <option value="normal">Normal</option>
@@ -328,7 +442,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
           <option value="alta">Alta</option>
         </select>
       </div>
-      <div class="fg">
+      <div class="fg form-half">
         <label class="fl">Estado</label>
         <select id="f-estado">
           <option value="pendiente">Pendiente</option>
@@ -336,11 +450,11 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
           <option value="completada">Completada</option>
         </select>
       </div>
-      <div class="fg">
-        <label class="fl">Fecha límite (opcional)</label>
+      <div class="fg form-half">
+        <label class="fl">Fecha límite</label>
         <input type="date" id="f-fecha">
       </div>
-      <div class="fg form-full">
+      <div class="fg form-2">
         <label class="fl">Asignado a</label>
         <input type="text" id="f-asignado" placeholder="Nombre de la persona...">
       </div>
@@ -352,12 +466,58 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
         <label class="fl">Observaciones / Detalles</label>
         <textarea id="f-obs" placeholder="Notas importantes, contexto, referencias..."></textarea>
       </div>
-      <div class="fg form-full">
-        <label class="fl">Imagen o pantallazo (opcional)</label>
-        <input type="file" id="f-img" accept="image/*" onchange="previewImg(this)">
-        <div class="img-preview-wrap">
-          <img class="img-preview" id="imgPreview">
-          <button class="btn-clear-img" id="btnClearImg" style="display:none" onclick="clearImg()">× Quitar imagen</button>
+
+      <!-- SECCIÓN: Subtareas -->
+      <div class="section-collapsable">
+        <div class="section-title" onclick="toggleSeccion(this)">
+          <svg class="arrow" width="10" height="10" viewBox="0 0 10 10"><path d="M2 4l3 3 3-3" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+          ☑️ Subtareas / Checklist
+        </div>
+        <div class="section-body">
+          <div class="form-full">
+            <div class="subtask-edit-list" id="subtaskEditList"></div>
+            <button type="button" class="btn-add-sub" onclick="addSubtask()">+ Añadir subtarea</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN: Info adicional -->
+      <div class="section-collapsable">
+        <div class="section-title" onclick="toggleSeccion(this)">
+          <svg class="arrow" width="10" height="10" viewBox="0 0 10 10"><path d="M2 4l3 3 3-3" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+          📍 Info adicional
+        </div>
+        <div class="section-body">
+          <div class="fg">
+            <label class="fl">Ubicación</label>
+            <input type="text" id="f-ubicacion" placeholder="Madrid, oficina...">
+          </div>
+          <div class="fg">
+            <label class="fl">Cliente</label>
+            <input type="text" id="f-cliente" placeholder="Nombre cliente">
+          </div>
+          <div class="fg">
+            <label class="fl">Presupuesto</label>
+            <input type="text" id="f-presupuesto" placeholder="€ o ref.">
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN: Imágenes (con pegado Ctrl+V) -->
+      <div class="section-collapsable">
+        <div class="section-title" onclick="toggleSeccion(this)">
+          <svg class="arrow" width="10" height="10" viewBox="0 0 10 10"><path d="M2 4l3 3 3-3" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+          🖼️ Imágenes / Pantallazos
+        </div>
+        <div class="section-body">
+          <div class="form-full">
+            <div class="dropzone" id="dropzone" onclick="document.getElementById('f-img').click()">
+              <div>📎 <strong>Haz clic para subir</strong>, arrastra aquí, o pega con <strong>Ctrl+V</strong></div>
+              <div style="font-size:11px; margin-top:4px; opacity:.7">Puedes añadir varias imágenes</div>
+            </div>
+            <input type="file" id="f-img" accept="image/*" multiple style="display:none" onchange="handleImgInput(this)">
+            <div class="imgs-preview" id="imgsPreview"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -368,31 +528,39 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
   </div>
 </div>
 
-<!-- CONFIRM -->
+<!-- CONFIRM GENÉRICO -->
 <div class="confirm-box" id="confirmBox">
   <div class="confirm-inner">
-    <div class="confirm-title">Eliminar tarea</div>
-    <div class="confirm-msg">¿Seguro que quieres eliminar esta tarea? No se puede deshacer.</div>
+    <div class="confirm-title" id="confirmTitle">Confirmar</div>
+    <div class="confirm-msg" id="confirmMsg"></div>
     <div class="confirm-actions">
       <button class="btn-cancel2" onclick="cerrarConfirm()">Cancelar</button>
-      <button class="btn-cdel" onclick="confirmarBorrar()">Eliminar</button>
+      <button class="btn-cdel" id="confirmBtnOk" onclick="ejecutarConfirm()">Eliminar</button>
     </div>
   </div>
 </div>
 
-<!-- MODAL NUEVA PESTAÑA -->
+<!-- MODAL NUEVA PESTAÑA / RENOMBRAR -->
 <div class="tab-modal" id="tabModal">
   <div class="tab-modal-inner">
-    <div style="font-size:15px;font-weight:600;margin-bottom:1rem">Nueva pestaña</div>
+    <div id="tabModalTitle" style="font-size:15px;font-weight:600;margin-bottom:1rem">Nueva pestaña</div>
     <div class="fg" style="margin-bottom:12px">
       <label class="fl">Nombre de la pestaña</label>
       <input type="text" id="tabNombre" placeholder="Ej: Presupuestos, Clientes...">
     </div>
     <div style="display:flex;gap:8px;justify-content:flex-end">
       <button class="btn-cancel2" onclick="cerrarTabModal()">Cancelar</button>
-      <button class="btn-save2" onclick="crearPestana()">Crear</button>
+      <button class="btn-save2" id="tabModalOk" onclick="crearPestana()">Crear</button>
     </div>
   </div>
+</div>
+
+<!-- MENÚ CONTEXTUAL PESTAÑA -->
+<div class="tab-ctx-menu" id="tabCtxMenu">
+  <div class="ctx-item" onclick="accionPestana('renombrar')">✏️ Renombrar</div>
+  <div class="ctx-item" onclick="accionPestana('subir')">⬆️ Mover arriba</div>
+  <div class="ctx-item" onclick="accionPestana('bajar')">⬇️ Mover abajo</div>
+  <div class="ctx-item danger" onclick="accionPestana('borrar')">🗑️ Borrar pestaña</div>
 </div>
 
 <!-- LIGHTBOX -->
@@ -404,19 +572,19 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 
 <script>
 // ── CONFIG ─────────────────────────────────────────────────────
-const PASS = 'Emma_Panel_2026!'; // Cambia esta contraseña
+const PASS = 'Emma_Panel_2026!';
 const SUPABASE_URL = 'https://tmwfkeidbypplxpmcxpc.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRtd2ZrZWlkYnlwcGx4cG1jeHBjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5NTEzMzksImV4cCI6MjA5MjUyNzMzOX0.dybhaE7xFMERq7dGPfEJGxbECZWGCM6Rv6hOdudNns8';
 const H = { 'Content-Type': 'application/json', 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY };
 const API = SUPABASE_URL + '/rest/v1/tareas';
 
-// ── PESTAÑAS POR DEFECTO ───────────────────────────────────────
 const PESTANAS_DEFAULT = [
   'Tareas diarias Emma',
   'Tareas diarias asignadas',
   'Reclamar transferencias',
   'Ediciones pendientes',
-  'Plantillas útil Iberia'
+  'Plantillas útil Iberia',
+  '__notas__'
 ];
 
 // ── ESTADO ─────────────────────────────────────────────────────
@@ -424,10 +592,13 @@ let tareas = [];
 let pestanas = [];
 let tabActiva = '';
 let filtroActivo = 'todas';
+let ordenActivo = 'recientes';
 let editId = null;
-let borrarId = null;
-let imgBase64 = null;
+let confirmAction = null;
+let imgList = [];           // array de base64
+let subtaskList = [];       // array de {texto, hecho}
 let busquedaActiva = '';
+let pestanaContextual = null; // pestaña que se está editando con el menú contextual
 
 // ── LOGIN ──────────────────────────────────────────────────────
 function hacerLogin() {
@@ -442,15 +613,26 @@ function hacerLogin() {
     document.getElementById('loginInput').value = '';
   }
 }
-function cerrarSesion() {
-  sessionStorage.removeItem('loggedIn');
-  location.reload();
-}
+function cerrarSesion() { sessionStorage.removeItem('loggedIn'); location.reload(); }
 function checkLogin() {
   if (sessionStorage.getItem('loggedIn') === '1') {
     document.getElementById('loginScreen').classList.add('hidden');
     document.getElementById('app').classList.add('visible');
     iniciar();
+  }
+}
+
+// ── TEMA OSCURO ────────────────────────────────────────────────
+function toggleTema() {
+  document.body.classList.toggle('dark');
+  const isDark = document.body.classList.contains('dark');
+  localStorage.setItem('tema', isDark ? 'dark' : 'light');
+  document.getElementById('btnTema').textContent = isDark ? '☀️' : '🌙';
+}
+function cargarTema() {
+  if (localStorage.getItem('tema') === 'dark') {
+    document.body.classList.add('dark');
+    document.getElementById('btnTema').textContent = '☀️';
   }
 }
 
@@ -477,13 +659,11 @@ async function dbDelete(id) {
 
 // ── PESTAÑAS ───────────────────────────────────────────────────
 function cargarPestanas() {
-  const raw = localStorage.getItem('pestanas_tareas');
+  const raw = localStorage.getItem('pestanas_tareas_v2');
   pestanas = raw ? JSON.parse(raw) : [...PESTANAS_DEFAULT];
+  if (!pestanas.includes('__notas__')) pestanas.push('__notas__');
 }
-function guardarPestanas() {
-  localStorage.setItem('pestanas_tareas', JSON.stringify(pestanas));
-}
-function colorTab(i) { return `color-tab-${i % 8}`; }
+function guardarPestanas() { localStorage.setItem('pestanas_tareas_v2', JSON.stringify(pestanas)); }
 
 function renderTabs() {
   const bar = document.getElementById('tabsBar');
@@ -491,22 +671,52 @@ function renderTabs() {
   tareas.forEach(t => {
     if (t.estado !== 'completada') counts[t.pestana] = (counts[t.pestana] || 0) + 1;
   });
-  bar.innerHTML = pestanas.map((p, i) => `
-    <button class="tab-btn ${tabActiva === p ? 'active' : ''}" onclick="setTab('${p.replace(/'/g,"\\'")}')">
-      ${p} <span class="tab-count">${counts[p] || 0}</span>
-    </button>`).join('') +
-    `<button class="tab-btn completadas ${tabActiva === '__completadas__' ? 'active' : ''}" onclick="setTab('__completadas__')">
-      ✓ Completadas <span class="tab-count">${tareas.filter(t=>t.estado==='completada').length}</span>
-    </button>` +
-    `<button class="btn-add-tab" onclick="abrirTabModal()" title="Añadir pestaña">+</button>`;
+  const favCount = tareas.filter(t => t.favorita && t.estado !== 'completada').length;
+  const completadasCount = tareas.filter(t => t.estado === 'completada').length;
 
-  // Update select in modal
+  let html = '';
+  pestanas.forEach((p, i) => {
+    if (p === '__notas__') return; // lo añadimos al final
+    const active = tabActiva === p;
+    const esc = escHtml(p);
+    html += `<button class="tab-btn ${active ? 'active' : ''}" onclick="setTab(${JSON.stringify(p).replace(/"/g,'&quot;')})">
+      ${esc} <span class="tab-count">${counts[p] || 0}</span>
+      <span class="tab-menu-btn" onclick="abrirMenuPestana(event, ${JSON.stringify(p).replace(/"/g,'&quot;')})">⋮</span>
+    </button>`;
+  });
+
+  // Pestañas especiales
+  html += `<button class="tab-btn favoritas ${tabActiva === '__favoritas__' ? 'active' : ''}" onclick="setTab('__favoritas__')">
+    ⭐ Favoritas <span class="tab-count">${favCount}</span>
+  </button>`;
+  html += `<button class="tab-btn notas ${tabActiva === '__notas__' ? 'active' : ''}" onclick="setTab('__notas__')">
+    📝 Notas <span class="tab-count">${tareas.filter(t=>t.pestana==='__notas__').length}</span>
+  </button>`;
+  html += `<button class="tab-btn completadas ${tabActiva === '__completadas__' ? 'active' : ''}" onclick="setTab('__completadas__')">
+    ✓ Completadas <span class="tab-count">${completadasCount}</span>
+  </button>`;
+  html += `<button class="btn-add-tab" onclick="abrirTabModal()" title="Añadir pestaña">+</button>`;
+
+  bar.innerHTML = html;
+
   const sel = document.getElementById('f-pestana');
   if (sel) {
     const cur = sel.value;
-    sel.innerHTML = pestanas.map(p => `<option value="${p}">${p}</option>`).join('');
+    sel.innerHTML = pestanas.filter(p => p !== '__notas__').map(p => `<option value="${escAttr(p)}">${escHtml(p)}</option>`).join('');
     if (cur) sel.value = cur;
   }
+
+  // Stats
+  renderStats();
+}
+
+function renderStats() {
+  const ahora = new Date();
+  const haceSemana = new Date(ahora); haceSemana.setDate(haceSemana.getDate() - 7);
+  const haceMes = new Date(ahora); haceMes.setDate(haceMes.getDate() - 30);
+  const semana = tareas.filter(t => t.estado === 'completada' && t.created_at && new Date(t.created_at) > haceSemana).length;
+  const mes = tareas.filter(t => t.estado === 'completada' && t.created_at && new Date(t.created_at) > haceMes).length;
+  document.getElementById('statsMini').textContent = `✓ ${semana} esta semana · ${mes} este mes`;
 }
 
 function setTab(t) {
@@ -520,6 +730,57 @@ function setTab(t) {
   render();
 }
 
+// ── MENÚ CONTEXTUAL PESTAÑAS ───────────────────────────────────
+function abrirMenuPestana(ev, pestana) {
+  ev.stopPropagation();
+  pestanaContextual = pestana;
+  const menu = document.getElementById('tabCtxMenu');
+  const rect = ev.target.getBoundingClientRect();
+  menu.style.top = (rect.bottom + window.scrollY + 4) + 'px';
+  menu.style.left = (rect.left + window.scrollX - 140) + 'px';
+  menu.classList.add('open');
+}
+function cerrarMenuPestana() { document.getElementById('tabCtxMenu').classList.remove('open'); }
+
+function accionPestana(accion) {
+  const p = pestanaContextual;
+  if (!p) return;
+  cerrarMenuPestana();
+
+  if (accion === 'renombrar') {
+    abrirTabModal(p); // modo renombrar
+  } else if (accion === 'subir' || accion === 'bajar') {
+    const idx = pestanas.indexOf(p);
+    if (idx < 0) return;
+    const newIdx = accion === 'subir' ? idx - 1 : idx + 1;
+    if (newIdx < 0 || newIdx >= pestanas.length) return;
+    if (pestanas[newIdx] === '__notas__') return; // no atravesar notas
+    [pestanas[idx], pestanas[newIdx]] = [pestanas[newIdx], pestanas[idx]];
+    guardarPestanas();
+    renderTabs();
+    toast('Pestaña movida');
+  } else if (accion === 'borrar') {
+    const cnt = tareas.filter(t => t.pestana === p).length;
+    pedirConfirm('Borrar pestaña',
+      cnt > 0 ? `Esta pestaña tiene ${cnt} tarea(s). Se moverán a la primera pestaña disponible.` : '¿Seguro que quieres borrar esta pestaña?',
+      'Borrar',
+      async () => {
+        // mover tareas a la primera pestaña (que no sea esta ni notas)
+        const destino = pestanas.find(x => x !== p && x !== '__notas__') || 'Sin pestaña';
+        try {
+          const afectadas = tareas.filter(t => t.pestana === p);
+          for (const t of afectadas) { await dbUpdate(t.id, { pestana: destino }); }
+          pestanas = pestanas.filter(x => x !== p);
+          guardarPestanas();
+          if (tabActiva === p) tabActiva = destino;
+          await cargar();
+          toast('Pestaña borrada');
+        } catch(e) { alert('Error al borrar pestaña'); }
+      }
+    );
+  }
+}
+
 // ── FILTROS ────────────────────────────────────────────────────
 function setFiltro(f, btn) {
   filtroActivo = f;
@@ -527,82 +788,212 @@ function setFiltro(f, btn) {
   btn.classList.add('active');
   render();
 }
+function cambiarOrden() {
+  ordenActivo = document.getElementById('sortSelect').value;
+  render();
+}
+
+function esVencida(t) {
+  if (!t.fecha || t.estado === 'completada') return false;
+  const hoy = new Date(); hoy.setHours(0,0,0,0);
+  const f = new Date(t.fecha + 'T00:00:00');
+  return f < hoy;
+}
+function esHoy(t) {
+  if (!t.fecha || t.estado === 'completada') return false;
+  const hoy = new Date().toISOString().split('T')[0];
+  return t.fecha === hoy;
+}
 
 function getTareasFiltradas() {
   let lista = [...tareas];
   if (busquedaActiva) {
     const q = busquedaActiva.toLowerCase();
     lista = lista.filter(t =>
-      [t.titulo, t.pestana, t.asignado, t.obs, t.tags].join(' ').toLowerCase().includes(q)
+      [t.titulo, t.pestana, t.asignado, t.obs, t.tags, t.ubicacion, t.cliente, t.presupuesto].filter(Boolean).join(' ').toLowerCase().includes(q)
     );
-    return lista;
+  } else {
+    if (tabActiva === '__completadas__') lista = lista.filter(t => t.estado === 'completada');
+    else if (tabActiva === '__favoritas__') lista = lista.filter(t => t.favorita && t.estado !== 'completada');
+    else if (tabActiva === '__notas__') lista = lista.filter(t => t.pestana === '__notas__');
+    else if (tabActiva) lista = lista.filter(t => t.pestana === tabActiva && t.estado !== 'completada');
+    else lista = lista.filter(t => t.estado !== 'completada');
   }
-  if (tabActiva === '__completadas__') return lista.filter(t => t.estado === 'completada');
-  if (tabActiva) lista = lista.filter(t => t.pestana === tabActiva && t.estado !== 'completada');
-  else lista = lista.filter(t => t.estado !== 'completada');
+
   if (filtroActivo === 'alta') lista = lista.filter(t => t.prioridad === 'alta');
   if (filtroActivo === 'pendiente') lista = lista.filter(t => t.estado === 'pendiente');
   if (filtroActivo === 'en_proceso') lista = lista.filter(t => t.estado === 'en_proceso');
+  if (filtroActivo === 'vencidas') lista = lista.filter(t => esVencida(t));
+  if (filtroActivo === 'hoy') lista = lista.filter(t => esHoy(t));
+
+  // ORDENAR
+  const pw = { alta: 0, media: 1, normal: 2 };
+  if (ordenActivo === 'recientes') lista.sort((a,b) => (b.created_at||'').localeCompare(a.created_at||''));
+  else if (ordenActivo === 'antiguas') lista.sort((a,b) => (a.created_at||'').localeCompare(b.created_at||''));
+  else if (ordenActivo === 'fecha_asc') lista.sort((a,b) => (a.fecha||'9999').localeCompare(b.fecha||'9999'));
+  else if (ordenActivo === 'fecha_desc') lista.sort((a,b) => (b.fecha||'0').localeCompare(a.fecha||'0'));
+  else if (ordenActivo === 'prioridad') lista.sort((a,b) => (pw[a.prioridad]??3) - (pw[b.prioridad]??3));
+  else if (ordenActivo === 'alfabetico') lista.sort((a,b) => (a.titulo||'').localeCompare(b.titulo||'', 'es'));
+
   return lista;
 }
 
 function buscarGlobal() {
   busquedaActiva = document.getElementById('globalSearch').value.trim();
-  tabActiva = busquedaActiva ? '' : (pestanas[0] || '');
+  if (busquedaActiva) tabActiva = '';
+  renderTabs();
+  render();
+}
+function buscarEtiqueta(tag) {
+  document.getElementById('globalSearch').value = tag;
+  busquedaActiva = tag;
+  tabActiva = '';
   renderTabs();
   render();
 }
 
-// ── COLORES BARRA ─────────────────────────────────────────────
+// ── COLORES ───────────────────────────────────────────────
 const BARRA_COLORES = ['#2A4858','#4A5568','#744210','#276749','#702459','#2C5282','#553C9A','#2D3748'];
 function barraColor(pestana) {
+  if (pestana === '__notas__') return '#3D6B7E';
   const i = pestanas.indexOf(pestana) % BARRA_COLORES.length;
   return BARRA_COLORES[Math.max(0, i)];
 }
 
-// ── RENDER ─────────────────────────────────────────────────────
+// ── ESCAPE HTML ────────────────────────────────────────────────
+function escHtml(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function escAttr(s) { return escHtml(s); }
+
+// ── RENDER TARJETAS ─────────────────────────────────────────────
 function render() {
   const lista = getTareasFiltradas();
   const grid = document.getElementById('tareasGrid');
   if (!lista.length) {
-    grid.innerHTML = `<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-txt">No hay tareas aquí todavía</div></div>`;
+    const msg = tabActiva === '__notas__' ? 'No tienes notas guardadas' : 'No hay tareas aquí todavía';
+    grid.innerHTML = `<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-txt">${msg}</div></div>`;
     return;
   }
-  grid.innerHTML = lista.map(t => {
-    const tags = t.tags ? t.tags.split(',').map(s=>s.trim()).filter(Boolean) : [];
-    const tagsHtml = tags.map(tag => `<span class="tag">#${tag}</span>`).join('');
-    const fechaHtml = t.fecha ? `<div class="meta-row"><svg class="meta-icon" viewBox="0 0 13 13" fill="none"><rect x="1" y="2" width="11" height="10" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M4 1v2M9 1v2M1 5h11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg><span class="meta-val">${fmtFecha(t.fecha)}</span></div>` : '';
-    const asignadoHtml = t.asignado ? `<div class="meta-row"><svg class="meta-icon" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="4" r="2.5" stroke="currentColor" stroke-width="1.2"/><path d="M1.5 11.5c0-2.76 2.24-5 5-5s5 2.24 5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg><span class="meta-val bold">→ ${t.asignado}</span></div>` : '';
-    const imgHtml = t.imagen ? `<img class="img-thumb" src="${t.imagen}" onclick="verImagen('${t.id}')" title="Ver imagen">` : '';
-    const obsHtml = t.obs ? `<div class="obs-box">${t.obs}</div>` : '';
-    const pestanaHtml = busquedaActiva ? `<div class="meta-row"><svg class="meta-icon" viewBox="0 0 13 13" fill="none"><rect x="1" y="1" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.2"/><path d="M4 5h5M4 8h3" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg><span class="meta-val">${t.pestana}</span></div>` : '';
-    return `<div class="tarea-card ${t.estado==='completada'?'completada':''}">
-      <div class="card-accent-bar" style="background:${barraColor(t.pestana)}"></div>
-      <div class="card-body">
-        <div class="card-top">
-          <div class="card-titulo">${t.titulo}</div>
-          <span class="prioridad-badge p-${t.prioridad}">${t.prioridad}</span>
-        </div>
-        <div class="card-meta">
-          ${pestanaHtml}${fechaHtml}${asignadoHtml}
-        </div>
-        ${tagsHtml ? `<div class="tags-wrap">${tagsHtml}</div>` : ''}
-        ${imgHtml}
-        ${obsHtml}
-        <div class="card-footer">
-          <span class="card-fecha">${fmtCreado(t.created_at)}</span>
-          <div class="card-btns">
-            ${t.estado!=='completada'?`<button class="cbtn cbtn-done" onclick="completarTarea(${t.id})">✓ Listo</button>`:''}
-            <button class="cbtn" onclick="editarTarea(${t.id})">Editar</button>
-            <button class="cbtn cbtn-del" onclick="pedirBorrar(${t.id})">Borrar</button>
-          </div>
-        </div>
+  grid.innerHTML = lista.map(t => renderCard(t)).join('');
+}
+
+function renderCard(t) {
+  const vencida = esVencida(t);
+  const hoy = esHoy(t);
+  const cardClass = [
+    'tarea-card',
+    t.estado === 'completada' ? 'completada' : '',
+    vencida ? 'vencida' : '',
+    hoy ? 'hoy' : ''
+  ].filter(Boolean).join(' ');
+
+  const esNota = t.pestana === '__notas__';
+
+  // Tags
+  const tags = t.tags ? t.tags.split(',').map(s=>s.trim()).filter(Boolean) : [];
+  const tagsHtml = tags.map(tag => `<span class="tag" onclick="buscarEtiqueta('${escAttr(tag)}')">#${escHtml(tag)}</span>`).join('');
+
+  // Fecha
+  let fechaHtml = '';
+  if (t.fecha) {
+    const cls = vencida ? 'vencida-txt' : (hoy ? 'hoy-txt' : '');
+    const extra = vencida ? ' (VENCIDA)' : (hoy ? ' (HOY)' : '');
+    fechaHtml = `<div class="meta-row"><svg class="meta-icon" viewBox="0 0 13 13" fill="none"><rect x="1" y="2" width="11" height="10" rx="1.5" stroke="currentColor" stroke-width="1.2"/><path d="M4 1v2M9 1v2M1 5h11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg><span class="meta-val ${cls}">${fmtFecha(t.fecha)}${extra}</span></div>`;
+  }
+
+  // Asignado
+  const asignadoHtml = t.asignado ? `<div class="meta-row"><svg class="meta-icon" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="4" r="2.5" stroke="currentColor" stroke-width="1.2"/><path d="M1.5 11.5c0-2.76 2.24-5 5-5s5 2.24 5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg><span class="meta-val bold">→ ${escHtml(t.asignado)}</span></div>` : '';
+
+  // Info adicional
+  const extras = [];
+  if (t.ubicacion) extras.push(`📍 ${escHtml(t.ubicacion)}`);
+  if (t.cliente) extras.push(`👤 ${escHtml(t.cliente)}`);
+  if (t.presupuesto) extras.push(`💰 ${escHtml(t.presupuesto)}`);
+  const extrasHtml = extras.length ? `<div class="meta-row"><span class="meta-val">${extras.join(' · ')}</span></div>` : '';
+
+  // Pestaña (cuando hay búsqueda global)
+  const pestanaHtml = (busquedaActiva || tabActiva === '__favoritas__' || tabActiva === '__completadas__') && t.pestana !== '__notas__'
+    ? `<div class="meta-row"><svg class="meta-icon" viewBox="0 0 13 13" fill="none"><rect x="1" y="1" width="11" height="11" rx="2" stroke="currentColor" stroke-width="1.2"/><path d="M4 5h5M4 8h3" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg><span class="meta-val">${escHtml(t.pestana)}</span></div>` : '';
+
+  // Imágenes (soporta nueva y antigua: imagenes [] o imagen string)
+  const imgs = getImagenes(t);
+  const imgsHtml = imgs.length ? `<div class="imgs-grid ${imgs.length===1?'single':''}">${imgs.map((src, i) => `<img src="${src}" onclick="verImagenDirecta('${escAttr(t.id)}', ${i})" alt="img">`).join('')}</div>` : '';
+
+  // Subtareas
+  let subsHtml = '';
+  const subs = Array.isArray(t.subtareas) ? t.subtareas : [];
+  if (subs.length) {
+    const hechas = subs.filter(s => s.hecho).length;
+    const prog = Math.round((hechas / subs.length) * 100);
+    subsHtml = `<div class="subtasks-wrap">
+      <div class="subtask-prog">☑ ${hechas}/${subs.length} · ${prog}%</div>
+      <div class="subtask-bar"><div class="subtask-fill" style="width:${prog}%"></div></div>
+      <div class="subtask-list">${subs.map((s, i) => `
+        <label class="subtask-item ${s.hecho?'done':''}">
+          <input type="checkbox" ${s.hecho?'checked':''} onchange="toggleSubtask(${t.id}, ${i})">
+          <span>${escHtml(s.texto)}</span>
+        </label>`).join('')}
       </div>
     </div>`;
-  }).join('');
+  }
+
+  // Obs
+  const obsHtml = t.obs ? `<div class="obs-box">${escHtml(t.obs)}</div>` : '';
+
+  // Título con estrella
+  const starHtml = esNota ? '' : `<button class="fav-star ${t.favorita ? 'active' : ''}" onclick="toggleFav(${t.id})" title="Favorita">★</button>`;
+
+  // Badges
+  const badgesHtml = esNota ? '' : `<span class="prioridad-badge p-${t.prioridad||'normal'}">${t.prioridad||'normal'}</span>`;
+  const estadoHtml = esNota ? '' : `<span class="estado-badge e-${t.estado||'pendiente'}">${(t.estado||'pendiente').replace('_',' ')}</span>`;
+
+  // Botones
+  const btnCompletar = (t.estado !== 'completada' && !esNota) ? `<button class="cbtn cbtn-done" onclick="completarTarea(${t.id})">✓ Listo</button>` : '';
+  const btnWhatsApp = esNota ? '' : `<button class="cbtn cbtn-wa" onclick="compartirWA(${t.id})" title="Compartir por WhatsApp">WA</button>`;
+  const btnDup = `<button class="cbtn" onclick="duplicarTarea(${t.id})" title="Duplicar">⎘</button>`;
+
+  return `<div class="${cardClass}">
+    <div class="card-accent-bar" style="background:${barraColor(t.pestana)}"></div>
+    <div class="card-body">
+      <div class="card-top">
+        <div class="card-titulo">
+          ${starHtml}
+          <span>${escHtml(t.titulo)}</span>
+        </div>
+        ${badgesHtml}
+      </div>
+      ${!esNota ? `<div style="display:flex; gap:6px; margin-bottom:8px; flex-wrap:wrap">${estadoHtml}</div>` : ''}
+      <div class="card-meta">
+        ${pestanaHtml}${fechaHtml}${asignadoHtml}${extrasHtml}
+      </div>
+      ${tagsHtml ? `<div class="tags-wrap">${tagsHtml}</div>` : ''}
+      ${imgsHtml}
+      ${obsHtml}
+      ${subsHtml}
+      <div class="card-footer">
+        <span class="card-fecha">${fmtCreado(t.created_at)}</span>
+        <div class="card-btns">
+          ${btnCompletar}
+          ${btnDup}
+          ${btnWhatsApp}
+          <button class="cbtn" onclick="editarTarea(${t.id})">Editar</button>
+          <button class="cbtn cbtn-del" onclick="pedirBorrar(${t.id})">Borrar</button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function getImagenes(t) {
+  // Compatibilidad: si hay array imagenes, usa ese. Si no, y hay imagen (string), convierte a array.
+  if (Array.isArray(t.imagenes) && t.imagenes.length) return t.imagenes;
+  if (t.imagen) return [t.imagen];
+  return [];
 }
 
 function fmtFecha(f) {
+  if (!f) return '';
   const d = new Date(f + 'T12:00:00');
   return d.toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' });
 }
@@ -612,157 +1003,422 @@ function fmtCreado(ts) {
   return d.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
 }
 
-// ── MODAL ──────────────────────────────────────────────────────
+// ── TOGGLE FAVORITA / SUBTAREAS ────────────────────────────────
+async function toggleFav(id) {
+  const t = tareas.find(x => x.id === id);
+  if (!t) return;
+  const nuevoFav = !t.favorita;
+  try {
+    await dbUpdate(id, { favorita: nuevoFav });
+    t.favorita = nuevoFav;
+    renderTabs(); render();
+    toast(nuevoFav ? '⭐ Añadida a favoritas' : 'Quitada de favoritas');
+  } catch(e) { alert('Error.'); }
+}
+async function toggleSubtask(id, idx) {
+  const t = tareas.find(x => x.id === id);
+  if (!t) return;
+  const subs = Array.isArray(t.subtareas) ? [...t.subtareas] : [];
+  if (!subs[idx]) return;
+  subs[idx].hecho = !subs[idx].hecho;
+  try {
+    await dbUpdate(id, { subtareas: subs });
+    t.subtareas = subs;
+    render();
+  } catch(e) { alert('Error.'); }
+}
+
+// ── MODAL TAREA ────────────────────────────────────────────────
 function abrirModal(id) {
   editId = id || null;
-  imgBase64 = null;
-  // Populate pestana select
+  imgList = [];
+  subtaskList = [];
+
   const sel = document.getElementById('f-pestana');
-  sel.innerHTML = pestanas.map(p => `<option value="${p}">${p}</option>`).join('');
+  sel.innerHTML = pestanas.filter(p => p !== '__notas__').map(p => `<option value="${escAttr(p)}">${escHtml(p)}</option>`).join('');
 
   if (editId) {
     const t = tareas.find(x => x.id === editId);
-    document.getElementById('modalTitle').textContent = 'Editar tarea';
-    document.getElementById('f-titulo').value = t.titulo;
-    document.getElementById('f-pestana').value = t.pestana;
+    document.getElementById('modalTitle').textContent = t.pestana === '__notas__' ? 'Editar nota' : 'Editar tarea';
+    document.getElementById('f-titulo').value = t.titulo || '';
+    if (t.pestana !== '__notas__') document.getElementById('f-pestana').value = t.pestana || pestanas[0];
     document.getElementById('f-prioridad').value = t.prioridad || 'normal';
     document.getElementById('f-estado').value = t.estado || 'pendiente';
     document.getElementById('f-fecha').value = t.fecha || '';
     document.getElementById('f-asignado').value = t.asignado || '';
     document.getElementById('f-tags').value = t.tags || '';
     document.getElementById('f-obs').value = t.obs || '';
-    if (t.imagen) { imgBase64 = t.imagen; document.getElementById('imgPreview').src = t.imagen; document.getElementById('imgPreview').classList.add('show'); document.getElementById('btnClearImg').style.display = 'block'; }
-    else { clearImg(); }
+    document.getElementById('f-ubicacion').value = t.ubicacion || '';
+    document.getElementById('f-cliente').value = t.cliente || '';
+    document.getElementById('f-presupuesto').value = t.presupuesto || '';
+    imgList = [...getImagenes(t)];
+    subtaskList = Array.isArray(t.subtareas) ? [...t.subtareas] : [];
   } else {
-    document.getElementById('modalTitle').textContent = 'Nueva tarea';
+    document.getElementById('modalTitle').textContent = tabActiva === '__notas__' ? 'Nueva nota' : 'Nueva tarea';
     document.getElementById('f-titulo').value = '';
-    if (tabActiva && tabActiva !== '__completadas__') document.getElementById('f-pestana').value = tabActiva;
+    if (tabActiva && tabActiva !== '__completadas__' && tabActiva !== '__favoritas__' && tabActiva !== '__notas__') {
+      document.getElementById('f-pestana').value = tabActiva;
+    }
     document.getElementById('f-prioridad').value = 'normal';
     document.getElementById('f-estado').value = 'pendiente';
     document.getElementById('f-fecha').value = '';
     document.getElementById('f-asignado').value = '';
     document.getElementById('f-tags').value = '';
     document.getElementById('f-obs').value = '';
-    clearImg();
+    document.getElementById('f-ubicacion').value = '';
+    document.getElementById('f-cliente').value = '';
+    document.getElementById('f-presupuesto').value = '';
   }
+  renderImgsPreview();
+  renderSubtasksEdit();
   document.getElementById('overlay').classList.add('open');
+  setTimeout(() => document.getElementById('f-titulo').focus(), 100);
 }
 function cerrarModal() { document.getElementById('overlay').classList.remove('open'); }
 
-function previewImg(input) {
-  const file = input.files[0];
-  if (!file) return;
+function toggleSeccion(el) {
+  el.classList.toggle('collapsed');
+  const body = el.nextElementSibling;
+  body.classList.toggle('hidden');
+}
+
+// ── SUBTAREAS EN MODAL ─────────────────────────────────────────
+function renderSubtasksEdit() {
+  const cont = document.getElementById('subtaskEditList');
+  cont.innerHTML = subtaskList.map((s, i) => `
+    <div class="subtask-edit-row">
+      <input type="checkbox" ${s.hecho?'checked':''} onchange="subtaskList[${i}].hecho = this.checked">
+      <input type="text" value="${escAttr(s.texto)}" placeholder="Subtarea..." oninput="subtaskList[${i}].texto = this.value">
+      <button type="button" class="btn-del-sub" onclick="removeSubtask(${i})">×</button>
+    </div>
+  `).join('');
+}
+function addSubtask() {
+  subtaskList.push({ texto: '', hecho: false });
+  renderSubtasksEdit();
+  // focus último
+  setTimeout(() => {
+    const inputs = document.querySelectorAll('#subtaskEditList input[type="text"]');
+    if (inputs.length) inputs[inputs.length - 1].focus();
+  }, 50);
+}
+function removeSubtask(idx) {
+  subtaskList.splice(idx, 1);
+  renderSubtasksEdit();
+}
+
+// ── IMÁGENES ──────────────────────────────────────────────────
+function handleImgInput(input) {
+  const files = Array.from(input.files || []);
+  files.forEach(procesarArchivoImg);
+  input.value = '';
+}
+function procesarArchivoImg(file) {
+  if (!file || !file.type.startsWith('image/')) return;
   const reader = new FileReader();
   reader.onload = e => {
-    imgBase64 = e.target.result;
-    document.getElementById('imgPreview').src = imgBase64;
-    document.getElementById('imgPreview').classList.add('show');
-    document.getElementById('btnClearImg').style.display = 'block';
+    imgList.push(e.target.result);
+    renderImgsPreview();
   };
   reader.readAsDataURL(file);
 }
-function clearImg() {
-  imgBase64 = null;
-  document.getElementById('f-img').value = '';
-  document.getElementById('imgPreview').classList.remove('show');
-  document.getElementById('imgPreview').src = '';
-  document.getElementById('btnClearImg').style.display = 'none';
+function renderImgsPreview() {
+  const cont = document.getElementById('imgsPreview');
+  cont.innerHTML = imgList.map((src, i) => `
+    <div class="img-prev-item">
+      <img src="${src}" alt="prev">
+      <button type="button" class="img-prev-del" onclick="removeImg(${i})">×</button>
+    </div>
+  `).join('');
+}
+function removeImg(idx) {
+  imgList.splice(idx, 1);
+  renderImgsPreview();
 }
 
+// Drag & drop + paste en dropzone
+(function() {
+  const dz = () => document.getElementById('dropzone');
+  document.addEventListener('dragover', e => {
+    if (document.getElementById('overlay').classList.contains('open')) {
+      e.preventDefault();
+      dz() && dz().classList.add('drag');
+    }
+  });
+  document.addEventListener('dragleave', e => { dz() && dz().classList.remove('drag'); });
+  document.addEventListener('drop', e => {
+    if (!document.getElementById('overlay').classList.contains('open')) return;
+    e.preventDefault();
+    dz() && dz().classList.remove('drag');
+    const files = Array.from(e.dataTransfer.files || []);
+    files.forEach(procesarArchivoImg);
+  });
+  // Pegar Ctrl+V
+  document.addEventListener('paste', e => {
+    if (!document.getElementById('overlay').classList.contains('open')) return;
+    const items = e.clipboardData && e.clipboardData.items;
+    if (!items) return;
+    let found = false;
+    for (const item of items) {
+      if (item.type && item.type.startsWith('image/')) {
+        const file = item.getAsFile();
+        if (file) { procesarArchivoImg(file); found = true; }
+      }
+    }
+    if (found) { e.preventDefault(); toast('📋 Imagen pegada'); }
+  });
+})();
+
+// ── GUARDAR ────────────────────────────────────────────────────
 async function guardarTarea() {
   const titulo = document.getElementById('f-titulo').value.trim();
-  if (!titulo) { alert('Escribe el título de la tarea.'); return; }
+  if (!titulo) { alert('Escribe el título.'); return; }
+
+  const subtareasLimpias = subtaskList.filter(s => s.texto && s.texto.trim()).map(s => ({ texto: s.texto.trim(), hecho: !!s.hecho }));
+
+  const esEditandoNota = editId && tareas.find(x => x.id === editId)?.pestana === '__notas__';
+  const esNuevaNota = !editId && tabActiva === '__notas__';
+
   const obj = {
     titulo,
-    pestana: document.getElementById('f-pestana').value,
+    pestana: (esEditandoNota || esNuevaNota) ? '__notas__' : document.getElementById('f-pestana').value,
     prioridad: document.getElementById('f-prioridad').value,
     estado: document.getElementById('f-estado').value,
     fecha: document.getElementById('f-fecha').value || null,
     asignado: document.getElementById('f-asignado').value.trim(),
     tags: document.getElementById('f-tags').value.trim(),
     obs: document.getElementById('f-obs').value.trim(),
-    imagen: imgBase64 || null
+    ubicacion: document.getElementById('f-ubicacion').value.trim(),
+    cliente: document.getElementById('f-cliente').value.trim(),
+    presupuesto: document.getElementById('f-presupuesto').value.trim(),
+    imagenes: imgList,
+    imagen: null, // ya no usamos el campo viejo
+    subtareas: subtareasLimpias
   };
+
   try {
-    if (editId) { await dbUpdate(editId, obj); toast('Tarea actualizada'); }
-    else { await dbInsert(obj); toast('Tarea creada'); }
+    if (editId) { await dbUpdate(editId, obj); toast('Actualizada'); }
+    else { await dbInsert(obj); toast('Creada'); }
     cerrarModal();
     await cargar();
   } catch(e) { alert('Error al guardar. Comprueba la conexión.'); }
 }
 
-// ── COMPLETAR / BORRAR ─────────────────────────────────────────
+// ── COMPLETAR / DUPLICAR / BORRAR ──────────────────────────────
 async function completarTarea(id) {
-  try { await dbUpdate(id, { estado: 'completada' }); toast('¡Tarea completada!'); await cargar(); }
+  try { await dbUpdate(id, { estado: 'completada' }); toast('¡Completada!'); await cargar(); }
+  catch(e) { alert('Error.'); }
+}
+async function duplicarTarea(id) {
+  const t = tareas.find(x => x.id === id);
+  if (!t) return;
+  const copia = {
+    titulo: t.titulo + ' (copia)',
+    pestana: t.pestana,
+    prioridad: t.prioridad,
+    estado: 'pendiente',
+    fecha: t.fecha,
+    asignado: t.asignado,
+    tags: t.tags,
+    obs: t.obs,
+    ubicacion: t.ubicacion,
+    cliente: t.cliente,
+    presupuesto: t.presupuesto,
+    imagenes: Array.isArray(t.imagenes) ? [...t.imagenes] : (t.imagen ? [t.imagen] : []),
+    subtareas: Array.isArray(t.subtareas) ? t.subtareas.map(s => ({ ...s, hecho: false })) : [],
+    favorita: false
+  };
+  try { await dbInsert(copia); toast('Duplicada'); await cargar(); }
   catch(e) { alert('Error.'); }
 }
 function editarTarea(id) { abrirModal(id); }
-function pedirBorrar(id) { borrarId = id; document.getElementById('confirmBox').classList.add('open'); }
-function cerrarConfirm() { document.getElementById('confirmBox').classList.remove('open'); borrarId = null; }
-async function confirmarBorrar() {
-  if (borrarId) { try { await dbDelete(borrarId); toast('Tarea eliminada'); await cargar(); } catch(e) { alert('Error.'); } }
+
+function pedirBorrar(id) {
+  pedirConfirm('Eliminar tarea', '¿Seguro que quieres eliminar esta tarea? No se puede deshacer.', 'Eliminar',
+    async () => {
+      try { await dbDelete(id); toast('Eliminada'); await cargar(); }
+      catch(e) { alert('Error.'); }
+    });
+}
+
+function pedirConfirm(titulo, msg, textoBtn, accion) {
+  document.getElementById('confirmTitle').textContent = titulo;
+  document.getElementById('confirmMsg').textContent = msg;
+  document.getElementById('confirmBtnOk').textContent = textoBtn || 'Confirmar';
+  confirmAction = accion;
+  document.getElementById('confirmBox').classList.add('open');
+}
+function cerrarConfirm() { document.getElementById('confirmBox').classList.remove('open'); confirmAction = null; }
+function ejecutarConfirm() {
+  if (confirmAction) confirmAction();
   cerrarConfirm();
 }
 
-// ── IMAGEN ─────────────────────────────────────────────────────
-function verImagen(id) {
+// ── IMÁGENES FULLSCREEN ────────────────────────────────────────
+function verImagenDirecta(id, idx) {
   const t = tareas.find(x => x.id == id);
-  if (t && t.imagen) {
-    document.getElementById('lightboxImg').src = t.imagen;
-    document.getElementById('lightbox').classList.add('open');
-  }
+  if (!t) return;
+  const imgs = getImagenes(t);
+  if (!imgs[idx]) return;
+  document.getElementById('lightboxImg').src = imgs[idx];
+  document.getElementById('lightbox').classList.add('open');
 }
 
-// ── PESTAÑA NUEVA ──────────────────────────────────────────────
-function abrirTabModal() { document.getElementById('tabNombre').value = ''; document.getElementById('tabModal').classList.add('open'); }
-function cerrarTabModal() { document.getElementById('tabModal').classList.remove('open'); }
-function crearPestana() {
+// ── WHATSAPP ───────────────────────────────────────────────────
+function compartirWA(id) {
+  const t = tareas.find(x => x.id === id);
+  if (!t) return;
+  let msg = `*${t.titulo}*\n`;
+  if (t.pestana && t.pestana !== '__notas__') msg += `📁 ${t.pestana}\n`;
+  if (t.fecha) msg += `📅 ${fmtFecha(t.fecha)}\n`;
+  if (t.asignado) msg += `👤 ${t.asignado}\n`;
+  if (t.ubicacion) msg += `📍 ${t.ubicacion}\n`;
+  if (t.cliente) msg += `Cliente: ${t.cliente}\n`;
+  if (t.presupuesto) msg += `💰 ${t.presupuesto}\n`;
+  if (t.obs) msg += `\n${t.obs}\n`;
+  const subs = Array.isArray(t.subtareas) ? t.subtareas : [];
+  if (subs.length) { msg += `\nChecklist:\n`; subs.forEach(s => msg += `${s.hecho?'✅':'⬜'} ${s.texto}\n`); }
+  window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+}
+
+// ── PESTAÑA NUEVA / RENOMBRAR ──────────────────────────────────
+let pestanaRenombrando = null;
+function abrirTabModal(pestanaExistente) {
+  pestanaRenombrando = pestanaExistente || null;
+  document.getElementById('tabModalTitle').textContent = pestanaRenombrando ? 'Renombrar pestaña' : 'Nueva pestaña';
+  document.getElementById('tabModalOk').textContent = pestanaRenombrando ? 'Renombrar' : 'Crear';
+  document.getElementById('tabNombre').value = pestanaRenombrando || '';
+  document.getElementById('tabModal').classList.add('open');
+  setTimeout(() => document.getElementById('tabNombre').focus(), 100);
+}
+function cerrarTabModal() { document.getElementById('tabModal').classList.remove('open'); pestanaRenombrando = null; }
+
+async function crearPestana() {
   const nombre = document.getElementById('tabNombre').value.trim();
   if (!nombre) return;
-  pestanas.push(nombre);
-  guardarPestanas();
-  cerrarTabModal();
-  renderTabs();
-  setTab(nombre);
-  toast('Pestaña creada');
+  if (nombre === '__notas__' || nombre === '__favoritas__' || nombre === '__completadas__') {
+    alert('Ese nombre no está permitido.');
+    return;
+  }
+  if (pestanaRenombrando) {
+    if (nombre === pestanaRenombrando) { cerrarTabModal(); return; }
+    if (pestanas.includes(nombre)) { alert('Ya existe una pestaña con ese nombre.'); return; }
+    // renombrar en BD todas las tareas afectadas
+    const afectadas = tareas.filter(t => t.pestana === pestanaRenombrando);
+    try {
+      for (const t of afectadas) { await dbUpdate(t.id, { pestana: nombre }); }
+      const idx = pestanas.indexOf(pestanaRenombrando);
+      if (idx >= 0) pestanas[idx] = nombre;
+      guardarPestanas();
+      if (tabActiva === pestanaRenombrando) tabActiva = nombre;
+      cerrarTabModal();
+      await cargar();
+      toast('Pestaña renombrada');
+    } catch(e) { alert('Error al renombrar.'); }
+  } else {
+    if (pestanas.includes(nombre)) { alert('Ya existe una pestaña con ese nombre.'); return; }
+    // insertar antes de __notas__
+    const idxNotas = pestanas.indexOf('__notas__');
+    if (idxNotas >= 0) pestanas.splice(idxNotas, 0, nombre);
+    else pestanas.push(nombre);
+    guardarPestanas();
+    cerrarTabModal();
+    renderTabs();
+    setTab(nombre);
+    toast('Pestaña creada');
+  }
 }
 
 // ── EXPORTAR PDF ───────────────────────────────────────────────
 function exportarPDF() {
   const lista = getTareasFiltradas();
-  const titulo = tabActiva === '__completadas__' ? 'Tareas Completadas' : (tabActiva || 'Todas las tareas');
+  const titulo = tabActiva === '__completadas__' ? 'Tareas Completadas' :
+    tabActiva === '__favoritas__' ? 'Favoritas' :
+    tabActiva === '__notas__' ? 'Notas' :
+    (tabActiva || 'Todas las tareas');
   const fecha = new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
-  let html = `<!DOCTYPE html><html><head><meta charset="UTF-8">
-  <style>
+  let html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><style>
     body { font-family: Georgia, serif; padding: 2.5cm; color: #1C1A14; font-size: 12pt; }
     h1 { font-size: 22pt; margin-bottom: 4px; color: #2A4858; }
     .sub { font-size: 10pt; color: #888; margin-bottom: 2rem; }
     .tarea { border: 1px solid #DDD; border-radius: 6px; padding: 14px 16px; margin-bottom: 14px; page-break-inside: avoid; }
     .t-titulo { font-size: 13pt; font-weight: bold; margin-bottom: 6px; }
     .t-meta { font-size: 10pt; color: #666; margin-bottom: 4px; }
-    .t-obs { font-size: 10pt; color: #555; background: #F5F3EE; padding: 8px 10px; border-radius: 4px; margin-top: 8px; }
+    .t-obs { font-size: 10pt; color: #555; background: #F5F3EE; padding: 8px 10px; border-radius: 4px; margin-top: 8px; white-space: pre-wrap; }
     .badge { display: inline-block; font-size: 9pt; padding: 1px 7px; border-radius: 10px; margin-left: 8px; }
-    .alta { background: #FAECEC; color: #8B2E2E; }
-    .media { background: #FFF4D6; color: #7A4E00; }
-    .normal { background: #EAF2F6; color: #2A4858; }
+    .alta { background: #FAECEC; color: #8B2E2E; } .media { background: #FFF4D6; color: #7A4E00; } .normal { background: #EAF2F6; color: #2A4858; }
     .tag { display: inline-block; font-size: 9pt; background: #EEE; border-radius: 4px; padding: 1px 6px; margin-right: 4px; }
-  </style></head><body>
-  <h1>Mis Tareas — ${titulo}</h1>
-  <div class="sub">Exportado el ${fecha} · ${lista.length} tareas</div>`;
+    .sub-list { margin-top: 6px; font-size: 10pt; }
+  </style></head><body><h1>Mis Tareas — ${escHtml(titulo)}</h1><div class="sub">Exportado el ${fecha} · ${lista.length} elementos</div>`;
   lista.forEach(t => {
-    const tags = t.tags ? t.tags.split(',').map(s=>`<span class="tag">#${s.trim()}</span>`).join('') : '';
+    const tags = t.tags ? t.tags.split(',').map(s=>`<span class="tag">#${escHtml(s.trim())}</span>`).join('') : '';
+    const subs = Array.isArray(t.subtareas) ? t.subtareas : [];
+    const subsHtml = subs.length ? `<div class="sub-list">${subs.map(s => `${s.hecho?'☑':'☐'} ${escHtml(s.texto)}`).join('<br>')}</div>` : '';
+    const extras = [t.ubicacion && `📍 ${t.ubicacion}`, t.cliente && `Cliente: ${t.cliente}`, t.presupuesto && `💰 ${t.presupuesto}`].filter(Boolean).join(' · ');
     html += `<div class="tarea">
-      <div class="t-titulo">${t.titulo} <span class="badge ${t.prioridad}">${t.prioridad}</span></div>
-      <div class="t-meta">📁 ${t.pestana} &nbsp;|&nbsp; Estado: ${t.estado}${t.fecha?` &nbsp;|&nbsp; Fecha: ${fmtFecha(t.fecha)}`:''}${t.asignado?` &nbsp;|&nbsp; Asignado a: ${t.asignado}`:''}</div>
+      <div class="t-titulo">${t.favorita?'⭐ ':''}${escHtml(t.titulo)}${t.pestana !== '__notas__'?`<span class="badge ${t.prioridad||'normal'}">${t.prioridad||'normal'}</span>`:''}</div>
+      <div class="t-meta">📁 ${escHtml(t.pestana==='__notas__'?'Notas':t.pestana)} &nbsp;|&nbsp; Estado: ${t.estado}${t.fecha?` &nbsp;|&nbsp; Fecha: ${fmtFecha(t.fecha)}`:''}${t.asignado?` &nbsp;|&nbsp; Asignado: ${escHtml(t.asignado)}`:''}</div>
+      ${extras ? `<div class="t-meta">${extras}</div>` : ''}
       ${tags ? `<div style="margin-top:6px">${tags}</div>` : ''}
-      ${t.obs ? `<div class="t-obs">${t.obs}</div>` : ''}
+      ${t.obs ? `<div class="t-obs">${escHtml(t.obs)}</div>` : ''}
+      ${subsHtml}
     </div>`;
   });
   html += '</body></html>';
   const w = window.open('', '_blank');
-  w.document.write(html);
-  w.document.close();
-  w.print();
+  w.document.write(html); w.document.close(); w.print();
+}
+
+// ── EXPORTAR EXCEL (CSV) ───────────────────────────────────────
+function exportarExcel() {
+  const lista = getTareasFiltradas();
+  const headers = ['Título','Pestaña','Prioridad','Estado','Fecha','Asignado','Etiquetas','Ubicación','Cliente','Presupuesto','Favorita','Observaciones','Subtareas'];
+  const rows = lista.map(t => {
+    const subs = Array.isArray(t.subtareas) ? t.subtareas : [];
+    const subsStr = subs.map(s => `${s.hecho?'[x]':'[ ]'} ${s.texto}`).join(' | ');
+    return [
+      t.titulo, t.pestana === '__notas__' ? 'Notas' : t.pestana, t.prioridad, t.estado,
+      t.fecha || '', t.asignado || '', t.tags || '', t.ubicacion || '', t.cliente || '',
+      t.presupuesto || '', t.favorita ? 'Sí' : '', t.obs || '', subsStr
+    ];
+  });
+  const csv = [headers, ...rows].map(row =>
+    row.map(cell => {
+      const s = String(cell == null ? '' : cell);
+      return /[;\n\r"]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+    }).join(';')
+  ).join('\r\n');
+  // BOM para Excel
+  const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `tareas_${new Date().toISOString().split('T')[0]}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('Excel descargado');
+}
+
+// ── RECORDATORIO AL ENTRAR ─────────────────────────────────────
+function mostrarRecordatorio() {
+  const vencidas = tareas.filter(t => esVencida(t)).length;
+  const hoy = tareas.filter(t => esHoy(t)).length;
+  if (vencidas === 0 && hoy === 0) return;
+
+  // No mostrar si ya se descartó hoy
+  const descartadoHoy = localStorage.getItem('banner_descartado_fecha') === new Date().toISOString().split('T')[0];
+  if (descartadoHoy) return;
+
+  let txt = '';
+  if (vencidas > 0) txt += `🔴 Tienes <strong>${vencidas}</strong> tarea(s) <strong>vencida(s)</strong>. `;
+  if (hoy > 0) txt += `📅 <strong>${hoy}</strong> tarea(s) <strong>para hoy</strong>.`;
+  const ban = document.getElementById('reminderBanner');
+  ban.innerHTML = `<div>${txt}</div><button class="close-ban" onclick="descartarBanner()">×</button>`;
+  ban.classList.add('show');
+}
+function descartarBanner() {
+  document.getElementById('reminderBanner').classList.remove('show');
+  localStorage.setItem('banner_descartado_fecha', new Date().toISOString().split('T')[0]);
 }
 
 // ── TOAST ──────────────────────────────────────────────────────
@@ -775,17 +1431,39 @@ function toast(msg) {
 document.getElementById('overlay').addEventListener('click', function(e) { if (e.target === this) cerrarModal(); });
 document.getElementById('confirmBox').addEventListener('click', function(e) { if (e.target === this) cerrarConfirm(); });
 document.getElementById('tabModal').addEventListener('click', function(e) { if (e.target === this) cerrarTabModal(); });
+document.addEventListener('click', function(e) {
+  const menu = document.getElementById('tabCtxMenu');
+  if (menu.classList.contains('open') && !menu.contains(e.target) && !e.target.classList.contains('tab-menu-btn')) {
+    cerrarMenuPestana();
+  }
+});
+// ESC cierra modales
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    if (document.getElementById('overlay').classList.contains('open')) cerrarModal();
+    else if (document.getElementById('tabModal').classList.contains('open')) cerrarTabModal();
+    else if (document.getElementById('confirmBox').classList.contains('open')) cerrarConfirm();
+    else if (document.getElementById('lightbox').classList.contains('open')) document.getElementById('lightbox').classList.remove('open');
+  }
+});
 
 // ── CARGAR ─────────────────────────────────────────────────────
 async function cargar() {
   document.getElementById('tareasGrid').innerHTML = '<div class="spinner-wrap"><div class="spinner"></div>Cargando...</div>';
-  try { tareas = await dbGet(); renderTabs(); render(); }
-  catch(e) { document.getElementById('tareasGrid').innerHTML = '<div class="empty-state"><div class="empty-txt">Error al conectar. Comprueba tu conexión.</div></div>'; }
+  try {
+    tareas = await dbGet();
+    renderTabs();
+    render();
+    mostrarRecordatorio();
+  } catch(e) {
+    document.getElementById('tareasGrid').innerHTML = '<div class="empty-state"><div class="empty-txt">Error al conectar. Comprueba tu conexión.</div></div>';
+  }
 }
 
 async function iniciar() {
+  cargarTema();
   cargarPestanas();
-  tabActiva = pestanas[0] || '';
+  tabActiva = pestanas.find(p => p !== '__notas__') || '';
   await cargar();
 }
 
